@@ -10,7 +10,7 @@
       "dev": "lite-server",
       "test": "echo \"Error: no test specified\" && sexit 1"
     },
-    "author": "ulwaim@duck.com",
+    "author": "ulwazim@duck.com",
     "license": "ISC",
     "devDependencies": {
       "bootstrap": "4.1.3",
