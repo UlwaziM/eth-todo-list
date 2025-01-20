@@ -107,6 +107,33 @@ loadWeb3: async function() {
       $newTaskTemplate.show()
     }
   },
+
+    createTask: async () => {
+      try {
+    // Show loading state
+    App.setLoading(true)
+    const content = $('#newTask').val()
+
+     // Ensure we have the current account
+     if (!App.account) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+        App.account = accounts[0]
+      }
+
+      // Create task using the current account
+      await App.todoList.createTask(content, {
+        from: App.account
+      })
+    // Reset form and refresh display
+      $('#newTask').val('')
+      await App.render()
+    } catch (error) {
+      console.error("Error creating task:", error)
+    } finally {
+      App.setLoading(false)
+    }
+  },
+
     setLoading: (boolean) => {
     App.loading = boolean
     const loader = $('#loader')
