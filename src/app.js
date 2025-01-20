@@ -94,7 +94,7 @@ loadWeb3: async function() {
       $newTaskTemplate.find('input')
                       .prop('name', taskId)
                       .prop('checked', taskCompleted)
-                     // .on('click', App.toggleCompleted)
+                      .on('click', App.toggleCompleted)
 
       // Put the task in the correct list
       if (taskCompleted) {
@@ -126,6 +126,25 @@ loadWeb3: async function() {
       })
     // Reset form and refresh display
       $('#newTask').val('')
+      await App.render()
+    } catch (error) {
+      console.error("Error creating task:", error)
+    } finally {
+      App.setLoading(false)
+    }
+  },
+    toggleCompleted: async (e) => {
+      try{
+    App.setLoading(true)
+    const taskId = e.target.name
+    if (!App.account) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+        App.account = accounts[0]
+      }
+    await App.todoList.toggleCompleted(taskId, {
+        from: App.account
+      })
+        $('#newTask').val('')
       await App.render()
     } catch (error) {
       console.error("Error creating task:", error)
